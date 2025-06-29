@@ -21,7 +21,10 @@ export const createList = (task) => {
   const checkedLists = listGroup.querySelectorAll(`.list input:checked`);
   console.log("lists", allLists.length);
   console.log("checked", checkedLists.length);
-  if (allLists.length === checkedLists.length) {
+  if (allLists.length === checkedLists.length && allLists.length > 0) {
+    doneAll.classList.remove("hidden");
+    unDoneAll.classList.add("hidden");
+  } else {
     doneAll.classList.remove("hidden");
     unDoneAll.classList.add("hidden");
   }
@@ -38,6 +41,7 @@ export const deleteList = (listId) => {
     icon: "warning",
     showCancelButton: true,
     confirmButtonText: "Yes, delete it!",
+    cancelButtonText: "No, keep it",
   }).then((result) => {
     if (result.isConfirmed) {
       Swal.fire({
@@ -64,13 +68,12 @@ export const editList = (listId) => {
   const editBtn = currentList.querySelector(".edit-btn");
   const task = currentList.querySelector(".list-task");
   const editTaskInput = document.createElement("input");
-  editTaskInput.className = "font-mono text-xl font-bold w-[180px]";
+  editTaskInput.className =
+    "flex-grow text-lg font-semibold border-2 border-purple-400 focus-visible:outline-none rounded-md px-2 py-1 mr-4";
   task.classList.add("hidden");
   editTaskInput.value = task.innerText;
   task.after(editTaskInput);
   editTaskInput.focus();
-  editTaskInput.className =
-    "border-2 border-stone-950 font-semibold font-mono ps-2 py-1 w-[180px] focus-visible:outline-none";
   editBtn.setAttribute("disabled", "true");
   //Blur Event For Edit Input
   editTaskInput.addEventListener("blur", () => {
@@ -97,7 +100,8 @@ export const checkList = (listId) => {
   const editBtn = currentList.querySelector(".edit-btn");
   const allLists = listGroup.querySelectorAll(`.list `);
   const checkedLists = listGroup.querySelectorAll(`.list input:checked`);
-  if (allLists.length === checkedLists.length) {
+  // Update done/undone all buttons based on current state
+  if (allLists.length === checkedLists.length && allLists.length > 0) {
     doneAll.classList.add("hidden");
     unDoneAll.classList.remove("hidden");
   } else {

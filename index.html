@@ -1,4 +1,4 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -17,7 +17,10 @@
     />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://your-app-url.com/" />
-    <meta property="og:image" content="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRRxfLdhu9uwzyYxMC5nHG371zJIrjbpbKlrg&s" />
+    <meta
+      property="og:image"
+      content="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRRxfLdhu9uwzyYxMC5nHG371zJIrjbpbKlrg&s"
+    />
     <meta property="og:site_name" content="To-Do List App" />
     <meta property="og:locale" content="en_US" />
 
@@ -32,189 +35,219 @@
   </head>
 
   <body>
-    <main
-      class="mx-auto mt-20 min-h-[500px] max-w-[500px] bg-[url(./img/background.png)] bg-cover pb-2 rounded-xl overflow-auto bg-no-repeat bg-center"
-    >
-      <section class="px-8 py-8">
-        <h1
-          class="mb-5 font-serif text-3xl font-extrabold shadow px-2 py-1 w-fit"
+    <!-- Main Container -->
+    <div class="main-container animate__animated animate__zoomIn">
+      <!-- Dark Mode Toggle Button -->
+      <button
+        id="darkModeToggle"
+        class="p-2.5 rounded-lg border-1 hover:bg-gray-400 transition-colors duration-200 active:scale-95 active:opacity-80 cursor-grab flex items-center"
+      >
+        <!-- Moon Icon (Default - for Light Mode) -->
+        <svg
+          id="moonIcon"
+          xmlns="http://www.w3.org/2000/svg"
+          class="w-6 h-6 pointer-events-none"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+         
         >
-          To Do List
-        </h1>
-        <div
-          class="flex justify-between bg-white opacity-70 border-2 border-stone-900 rounded-lg overflow-hidden"
-        >
-          <input
-            id="taskInput"
-            type="text"
-            class="focus:font-xl grow ps-2 focus:font-bold focus-visible:outline-none"
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"
           />
+        </svg>
+        <!-- Sun Icon (Hidden by Default - for Dark Mode) -->
+        <svg
+          id="sunIcon"
+          xmlns="http://www.w3.org/2000/svg"
+          class="w-6 h-6 hidden pointer-events-none"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+         
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M12 3v1m0 16v1m9-9h1M3 12h1m15.325-7.796l-.707.707M5.385 18.385l-.707.707M18.385 5.385l-.707-.707M5.385 5.385l-.707-.707M12 7a5 5 0 100 10 5 5 0 000-10z"
+          />
+        </svg>
+      </button>
+
+      <!-- Confetti/Sparkle background elements (purely decorative) -->
+      <div
+        class="absolute -top-10 right-20  w-40 h-40 bg-yellow-300 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob"
+      ></div>
+      <div
+        class="absolute -bottom-5 left-20 w-32 h-32 bg-purple-300 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob animation-delay-2000"
+      ></div>
+      <div
+        class="absolute top-2/4 right-0.5  w-24 h-24 bg-pink-300 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob animation-delay-4000"
+      ></div>
+
+      <h1
+        class="text-4xl font-extrabold text-center mb-6 flex items-center justify-center relative z-10"
+      >
+        Your To-Do List
+      </h1>
+
+      <!-- Input Section -->
+      <div class="flex gap-3 mb-6 relative z-10">
+        <input
+          type="text"
+          id="taskInput"
+          class="flex-grow p-3 border-2 border-purple-300 rounded-xl focus:outline-none focus:ring-4 focus:ring-purple-200 transition-all duration-200 text-lg placeholder-gray-400 dark:border-gray-500 dark:text-gray-100 dark:placeholder-gray-300 dark:focus:ring-purple-400"
+          placeholder="Add a new task..."
+        />
+        <button
+          id="addBtn"
+          class="bg-purple-600 hover:bg-purple-700 text-white font-bold py-3 px-6 rounded-xl flex items-center justify-center shadow-lg transform transition-all duration-200 hover:scale-105 active:scale-95 active:opacity-80 dark:bg-purple-700 dark:hover:bg-purple-800"
+        >
+          <!-- Upgraded Add Task Icon (Plus Circle) -->
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="h-6 w-6 mr-2"
+            viewBox="0 0 20 20"
+            fill="currentColor"
+          >
+            <path
+              fill-rule="evenodd"
+              d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-11a1 1 0 10-2 0v2H7a1 1 0 100 2h2v2a1 1 0 102 0v-2h2a1 1 0 100-2h-2V7z"
+              clip-rule="evenodd"
+            />
+          </svg>
+          Add Task
+        </button>
+      </div>
+
+      <!-- Task Summary -->
+      <div class="summary-section">
+        <p class="text-lg font-semibold">
+          Total Tasks: <span id="taskTotal" class="font-bold text-2xl">0</span>
+        </p>
+        <p class="text-lg font-semibold">
+          Completed: <span id="doneTotal" class="font-bold text-2xl">0</span>
+        </p>
+      </div>
+
+      <!-- List Group -->
+      <ul
+        id="listGroup"
+        class="space-y-4 max-h-80 overflow-y-auto pr-2 pb-2 relative z-10"
+      >
+        <!-- To-do items will be dynamically added here by JavaScript -->
+      </ul>
+
+      <!-- Action Buttons -->
+      <div class="flex justify-between action-buttons-divider">
+        <button
+          id="deleteAll"
+          class="bg-red-500 hover:bg-red-600 text-white font-bold py-3 px-5 rounded-xl shadow-lg transition-all duration-200 hover:scale-105 active:scale-95 active:opacity-80 opacity-50 dark:bg-red-600 dark:hover:bg-red-700"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="h-5 w-5 inline-block mr-1"
+            viewBox="0 0 20 20"
+            fill="currentColor"
+          >
+            <path
+              fill-rule="evenodd"
+              d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm6 0a1 1 0 11-2 0v6a1 1 0 112 0V8z"
+              clip-rule="evenodd"
+            />
+          </svg>
+          Clear All Tasks
+        </button>
+        <button
+          id="doneAll"
+          class="bg-green-500 hover:bg-green-600 text-white font-bold py-3 px-5 rounded-xl shadow-lg transition-all duration-200 hover:scale-105 active:scale-95 active:opacity-80 dark:bg-green-600 dark:hover:bg-green-700"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="h-5 w-5 inline-block mr-1"
+            viewBox="0 0 20 20"
+            fill="currentColor"
+          >
+            <path
+              fill-rule="evenodd"
+              d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+              clip-rule="evenodd"
+            />
+          </svg>
+          Mark All Completed
+        </button>
+        <button
+          id="unDoneAll"
+          class="bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-3 px-5 rounded-xl shadow-lg transition-all duration-200 hover:scale-105 active:scale-95 active:opacity-80 hidden dark:bg-yellow-600 dark:hover:bg-yellow-700"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="h-5 w-5 inline-block mr-1"
+            viewBox="0 0 20 20"
+            fill="currentColor"
+          >
+            <path
+              fill-rule="evenodd"
+              d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"
+              clip-rule="evenodd"
+            />
+          </svg>
+          Unmark All
+        </button>
+      </div>
+    </div>
+
+    <!-- List Item Template (Hidden - Cloned by JavaScript) -->
+    <template id="listTemplate">
+      <li
+        class="list flex items-center p-4 rounded-xl shadow-sm hover:shadow-md"
+      >
+        <input
+          type="checkbox"
+          class="check-list mr-4 h-6 w-6 text-purple-600 rounded-full focus:ring-purple-500 border-gray-300 transform scale-125 cursor-pointer dark:text-purple-400 dark:border-gray-500 dark:checked:bg-purple-400 dark:focus:ring-purple-400"
+        />
+        <p class="list-task text-lg font-semibold flex-grow mr-4"></p>
+        <div class="flex space-x-2">
           <button
-            id="addBtn"
-            class="flex size-10 items-center justify-center bg-stone-900"
+            class="edit-btn text-blue-500 hover:text-blue-700 transition-colors duration-200 active:scale-95 active:opacity-80 dark:text-blue-400 dark:hover:text-blue-500"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
+              class="h-6 w-6 pointer-events-none"
               fill="none"
               viewBox="0 0 24 24"
-              stroke-width="1.5"
               stroke="currentColor"
-              class="size-9 text-white"
             >
               <path
                 stroke-linecap="round"
                 stroke-linejoin="round"
-                d="M12 9v6m3-3H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
+                stroke-width="2"
+                d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"
+              />
+            </svg>
+          </button>
+          <button
+            class="delete-btn text-red-500 hover:text-red-700 transition-colors duration-200 active:scale-95 active:opacity-80 dark:text-red-400 dark:hover:text-red-500"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="h-6 w-6 pointer-events-none"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
               />
             </svg>
           </button>
         </div>
-      </section>
-
-      <section class="px-9 mb-3">
-        <div class="flex items-center justify-between">
-          <h2 class="font-mono text-xl font-bold">Your Lists</h2>
-          <p class="flex gap-2 rounded-xl border-2 border-stone-900 px-4">
-            <span id="doneTotal">0</span>
-            /
-            <span id="taskTotal">0</span>
-          </p>
-        </div>
-        <div id="listGroup" class="mt-5">
-          <div class="empty-stage mx-auto opacity-70 hidden last:block">
-            <div class="flex flex-col items-center justify-center gap-3">
-              <img src="./img/empty.svg" class="size-40" alt="" />
-              <p class="mb-5 font-mono text-xl font-bold">
-                There is no list....
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
-    </main>
-    <section class="flex justify-center gap-3">
-      <button
-        id="deleteAll"
-        class="bg-stone-900 text-stone-50 font-serif px-3 py-2 rounded-lg flex gap-3 item-center my-3 opacity-50 duration-700"
-      >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke-width="1.5"
-          stroke="currentColor"
-          class="size-6"
-        >
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            d="M12 9.75 14.25 12m0 0 2.25 2.25M14.25 12l2.25-2.25M14.25 12 12 14.25m-2.58 4.92-6.374-6.375a1.125 1.125 0 0 1 0-1.59L9.42 4.83c.21-.211.497-.33.795-.33H19.5a2.25 2.25 0 0 1 2.25 2.25v10.5a2.25 2.25 0 0 1-2.25 2.25h-9.284c-.298 0-.585-.119-.795-.33Z"
-          />
-        </svg>
-
-        Delete All
-      </button>
-      <button
-        id="doneAll"
-        class="bg-stone-800 text-stone-50 font-serif px-3 py-2 rounded-lg flex gap-3 item-center my-3"
-      >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke-width="1.5"
-          stroke="black"
-          class="size-6 fill-white"
-        >
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            d="M9 12.75 11.25 15 15 9.75M21 12c0 1.268-.63 2.39-1.593 3.068a3.745 3.745 0 0 1-1.043 3.296 3.745 3.745 0 0 1-3.296 1.043A3.745 3.745 0 0 1 12 21c-1.268 0-2.39-.63-3.068-1.593a3.746 3.746 0 0 1-3.296-1.043 3.745 3.745 0 0 1-1.043-3.296A3.745 3.745 0 0 1 3 12c0-1.268.63-2.39 1.593-3.068a3.745 3.745 0 0 1 1.043-3.296 3.746 3.746 0 0 1 3.296-1.043A3.746 3.746 0 0 1 12 3c1.268 0 2.39.63 3.068 1.593a3.746 3.746 0 0 1 3.296 1.043 3.746 3.746 0 0 1 1.043 3.296A3.745 3.745 0 0 1 21 12Z"
-          />
-        </svg>
-
-        Done All
-      </button>
-      <button
-        id="unDoneAll"
-        class="bg-stone-700 text-stone-50 font-serif px-3 py-2 rounded-lg gap-3 item-center my-3 hidden"
-      >
-        <div class="flex">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke-width="1.5"
-            stroke="currentColor"
-            class="size-6"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              d="M9 12.75 11.25 15 15 9.75M21 12c0 1.268-.63 2.39-1.593 3.068a3.745 3.745 0 0 1-1.043 3.296 3.745 3.745 0 0 1-3.296 1.043A3.745 3.745 0 0 1 12 21c-1.268 0-2.39-.63-3.068-1.593a3.746 3.746 0 0 1-3.296-1.043 3.745 3.745 0 0 1-1.043-3.296A3.745 3.745 0 0 1 3 12c0-1.268.63-2.39 1.593-3.068a3.745 3.745 0 0 1 1.043-3.296 3.746 3.746 0 0 1 3.296-1.043A3.746 3.746 0 0 1 12 3c1.268 0 2.39.63 3.068 1.593a3.746 3.746 0 0 1 3.296 1.043 3.746 3.746 0 0 1 1.043 3.296A3.745 3.745 0 0 1 21 12Z"
-            />
-          </svg>
-
-          Undone All
-        </div>
-      </button>
-    </section>
-    <template id="listTemplate">
-      <div class="list">
-        <!-- ListDiv -->
-        <div
-          class="flex justify-between rounded-lg border-2 border-stone-900 bg-white px-2 py-3 mb-4 animate__animated animate__zoomIn opacity-70"
-        >
-          <div class="flex items-center justify-center gap-3">
-            <input
-              id="checkList"
-              type="checkbox"
-              class="size-6 accent-stone-900 check-list"
-            />
-            <p class="font-mono text-xl font-bold list-task">${task}</p>
-          </div>
-          <div class="flex items-center justify-center gap-2">
-            <button
-              id="deleteBtn"
-              class="delete-btn disabled:opacity-50 active:scale-80 active:bg-stone-300 duration-200"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke-width="1.5"
-                stroke="currentColor"
-                class="size-7 pointer-events-none"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0"
-                />
-              </svg>
-            </button>
-            <button
-              id="editBtn"
-              class="edit-btn disabled:opacity-50 active:scale-80 active:bg-stone-300 duration-200"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke-width="1.5"
-                stroke="currentColor"
-                class="size-7 pointer-events-none"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10"
-                />
-              </svg>
-            </button>
-          </div>
-        </div>
-      </div>
+      </li>
     </template>
 
     <script type="module" src="./main.js"></script>

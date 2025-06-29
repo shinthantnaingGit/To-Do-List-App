@@ -1,5 +1,5 @@
-import { addTaskHandler, deleteAllHandler, doneAllHandler, listGroupHandler, taskInputHandler, unDoneAllHandler } from "./handlers.js";
-import { addBtn, deleteAll, doneAll, listGroup, taskInput, unDoneAll } from "./selectors.js";
+import { addTaskHandler, deleteAllHandler, doneAllHandler, listGroupHandler, taskInputHandler, toggleDarkMode, unDoneAllHandler } from "./handlers.js";
+import { addBtn, darkModeToggle, deleteAll, doneAll, listGroup, taskInput, unDoneAll } from "./selectors.js";
 
 //EVENT LISTENERS
 const listener = () => {
@@ -9,6 +9,7 @@ const listener = () => {
   deleteAll.addEventListener("click", deleteAllHandler);
   doneAll.addEventListener("click", doneAllHandler);
   unDoneAll.addEventListener("click", unDoneAllHandler);
+  darkModeToggle.addEventListener("click", toggleDarkMode);
 };
 
 export default listener;
