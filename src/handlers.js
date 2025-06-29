@@ -87,8 +87,6 @@ export const deleteAllHandler = () => {
           });
         });
         // Hide doneAll and show unDoneAll (though after deleting all, both might be hidden initially by observer)
-        doneAll.classList.remove("hidden");
-        unDoneAll.classList.add("hidden");
 
         Swal.fire({
           title: "All Deleted!",
@@ -97,6 +95,8 @@ export const deleteAllHandler = () => {
           showConfirmButton: false,
           timer: 1500,
         });
+        doneAll.classList.remove("hidden");
+        unDoneAll.classList.add("hidden");
       } else {
         deleteAll.classList.remove("opacity-50");
       }

@@ -55,8 +55,18 @@ export const deleteList = (listId) => {
         // updateTaskTotal();
         // updateDoneTotal();
         const allLists = listGroup.querySelectorAll(`.list `);
+        const checkedLists = listGroup.querySelectorAll(`.list input:checked`);
+
         if (allLists.length === 0) {
           deleteAll.classList.add("opacity-50");
+          doneAll.classList.remove("hidden");
+          unDoneAll.classList.add("hidden");
+        } else if (
+          allLists.length === checkedLists.length &&
+          allLists.length > 0
+        ) {
+          doneAll.classList.add("hidden");
+          unDoneAll.classList.remove("hidden");
         }
       });
     }
@@ -101,12 +111,13 @@ export const checkList = (listId) => {
   const allLists = listGroup.querySelectorAll(`.list `);
   const checkedLists = listGroup.querySelectorAll(`.list input:checked`);
   // Update done/undone all buttons based on current state
-  if (allLists.length === checkedLists.length && allLists.length > 0) {
-    doneAll.classList.add("hidden");
-    unDoneAll.classList.remove("hidden");
-  } else {
+  if (allLists.length === 0) {
+    deleteAll.classList.add("opacity-50");
     doneAll.classList.remove("hidden");
     unDoneAll.classList.add("hidden");
+  } else if (allLists.length === checkedLists.length && allLists.length > 0) {
+    doneAll.classList.add("hidden");
+    unDoneAll.classList.remove("hidden");
   }
   if (listCheck.checked) {
     editBtn.setAttribute("disabled", "true");
