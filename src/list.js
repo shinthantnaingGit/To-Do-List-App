@@ -1,5 +1,6 @@
 import Swal from "sweetalert2";
 import { v4 as uuidv4 } from "uuid";
+import { doneAll } from "./selectors";
 //ACTIONS (BUSINESS LOGICS)
 //CREATE LIST
 export const tasks = [
@@ -15,20 +16,10 @@ export const createList = (task) => {
   list.id = "list" + uuidv4();
   // list.id = "list" + listCounter++;
   listTP.querySelector(".list-task").innerText = task;
-
-  //WHEN ADD NEW TASK SHOW DONE ALL BUTTON
-  const allLists = listGroup.querySelectorAll(`.list `);
-  const checkedLists = listGroup.querySelectorAll(`.list input:checked`);
-  console.log("lists", allLists.length);
-  console.log("checked", checkedLists.length);
-  if (allLists.length === checkedLists.length && allLists.length > 0) {
-    doneAll.classList.remove("hidden");
-    unDoneAll.classList.add("hidden");
-  } else {
-    doneAll.classList.remove("hidden");
-    unDoneAll.classList.add("hidden");
-  }
-  //MAKE DELETE BUTTON SEE
+  //SHOW DONE ALL BUTTON DELETE ALL BUTTON
+  doneAll.classList.remove("hidden");
+  doneAll.classList.remove("opacity-50");
+  unDoneAll.classList.add("hidden");
   deleteAll.classList.remove("opacity-50");
   return list;
 };
@@ -52,13 +43,11 @@ export const deleteList = (listId) => {
       currentList.classList.add("animate__animated", "animate__zoomOut");
       currentList.addEventListener("animationend", () => {
         currentList.remove();
-        // updateTaskTotal();
-        // updateDoneTotal();
         const allLists = listGroup.querySelectorAll(`.list `);
         const checkedLists = listGroup.querySelectorAll(`.list input:checked`);
-
         if (allLists.length === 0) {
           deleteAll.classList.add("opacity-50");
+          doneAll.classList.add("opacity-50");
           doneAll.classList.remove("hidden");
           unDoneAll.classList.add("hidden");
         } else if (
@@ -111,14 +100,7 @@ export const checkList = (listId) => {
   const allLists = listGroup.querySelectorAll(`.list `);
   const checkedLists = listGroup.querySelectorAll(`.list input:checked`);
   // Update done/undone all buttons based on current state
-  if (allLists.length === 0) {
-    deleteAll.classList.add("opacity-50");
-    doneAll.classList.remove("hidden");
-    unDoneAll.classList.add("hidden");
-  } else if (allLists.length === checkedLists.length && allLists.length > 0) {
-    doneAll.classList.add("hidden");
-    unDoneAll.classList.remove("hidden");
-  }
+
   if (listCheck.checked) {
     editBtn.setAttribute("disabled", "true");
     currentList.classList.add("scale-90");
@@ -131,7 +113,18 @@ export const checkList = (listId) => {
     currentList.classList.remove("opacity-50");
     task.classList.remove("line-through");
   }
-  // updateDoneTotal();
+  if (allLists.length === 0) {
+    deleteAll.classList.add("opacity-50");
+    doneAll.classList.add("opacity-50");
+    doneAll.classList.remove("hidden");
+    unDoneAll.classList.add("hidden");
+  } else if (allLists.length === checkedLists.length && allLists.length > 0) {
+    doneAll.classList.add("hidden");
+    unDoneAll.classList.remove("hidden");
+  } else {
+    doneAll.classList.remove("hidden");
+    unDoneAll.classList.add("hidden");
+  }
 };
 //UPDATE TASK TOTAL
 export const updateTaskTotal = () => {

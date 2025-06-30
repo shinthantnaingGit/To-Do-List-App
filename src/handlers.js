@@ -3,7 +3,7 @@
 
 import Swal from "sweetalert2";
 import { checkList, createList, deleteList, editList } from "./list.js";
-import { listGroup } from "./selectors.js";
+import { doneAll, listGroup } from "./selectors.js";
 
 //ADD LIST HANDLER
 export const addList = (text) => {
@@ -78,6 +78,7 @@ export const deleteAllHandler = () => {
     }).then((result) => {
       if (result.isConfirmed) {
         deleteAll.classList.add("opacity-50");
+        doneAll.classList.add("opacity-50");
 
         // Animate and remove each list item
         allLists.forEach((list) => {
