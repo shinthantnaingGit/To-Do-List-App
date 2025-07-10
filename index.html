@@ -19,24 +19,24 @@
     <meta property="og:url" content="https://to-do-list-app-deployment.vercel.app/" />
     <meta
       property="og:image"
-      content="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRRxfLdhu9uwzyYxMC5nHG371zJIrjbpbKlrg&s"
+      content="./public/logo.png"
     />
     <meta property="og:site_name" content="To-Do List App" />
     <meta property="og:locale" content="en_US" />
 
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image" />
-    <meta property="twitter:url" content="https://mms-it.com/" />
+    <meta property="twitter:url" content="https://to-do-list-app-deployment.vercel.app/" />
     <meta property="twitter:title" content="Shin's To-do-list App" />
     <meta property="twitter:description" content="Test It!!!" />
-    <meta property="twitter:image" content="" />
+    <meta property="twitter:image" content="./public/logo.png" />
 
     <!-- Meta Tags Generated with https://metatags.io -->
   </head>
 
   <body>
     <!-- Main Container -->
-    <div class="main-container animate__animated animate__zoomIn">
+    <div class="main-container animate__animated animate__zoomIn min-w-sm">
       <!-- Dark Mode Toggle Button -->
       <button
         id="darkModeToggle"
@@ -94,16 +94,16 @@
       </h1>
 
       <!-- Input Section -->
-      <div class="flex gap-3 mb-6 relative z-10">
+      <div class="flex gap-3 mb-6 relative z-10 ">
         <input
           type="text"
           id="taskInput"
-          class="flex-grow p-3 border-2 border-purple-300 rounded-xl focus:outline-none focus:ring-4 focus:ring-purple-200 transition-all duration-200 text-lg placeholder-gray-400 dark:border-gray-500 dark:text-gray-100 dark:placeholder-gray-300 dark:focus:ring-purple-400"
+          class="flex-grow w-[70%] p-3 border-2 border-purple-300 rounded-xl focus:outline-none focus:ring-4 focus:ring-purple-200 transition-all duration-200 text-lg placeholder-gray-400 border-gray-500 text-gray-100 placeholder-gray-300 focus:ring-purple-400"
           placeholder="Add a new task..."
         />
         <button
           id="addBtn"
-          class="bg-purple-600 hover:bg-purple-700 text-white font-bold py-3 px-6 rounded-xl flex items-center justify-center shadow-lg transform transition-all duration-200 hover:scale-105 active:scale-95 active:opacity-80 dark:bg-purple-700 dark:hover:bg-purple-800"
+          class="bg-purple-600 hover:bg-purple-700 text-white font-bold py-3 px-4 rounded-xl flex items-center justify-center shadow-lg transform transition-all duration-200 hover:scale-105 active:scale-95 active:opacity-80 bg-purple-700 hover:bg-purple-800 w-[30%]"
         >
           <!-- Upgraded Add Task Icon (Plus Circle) -->
           <svg
@@ -118,7 +118,7 @@
               clip-rule="evenodd"
             />
           </svg>
-          Add Task
+          <span>Add Task</span>
         </button>
       </div>
 
@@ -141,10 +141,10 @@
       </ul>
 
       <!-- Action Buttons -->
-      <div class="flex justify-between action-buttons-divider">
+      <div class="flex justify-between gap-2 action-buttons-divider">
         <button
           id="deleteAll"
-          class="bg-red-500 hover:bg-red-600 text-white font-bold py-3 px-5 rounded-xl shadow-lg transition-all duration-200 hover:scale-105 active:scale-95 active:opacity-80 opacity-50 dark:bg-red-600 dark:hover:bg-red-700"
+          class="bg-red-500 hover:bg-red-600 text-white font-bold py-3 px-5 rounded-xl shadow-lg transition-all duration-200 hover:scale-105 active:scale-95 active:opacity-80 opacity-50 dark:bg-red-600 dark:hover:bg-red-700 w-[50%] flex justify-center items-center"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -158,11 +158,11 @@
               clip-rule="evenodd"
             />
           </svg>
-          Clear All Tasks
+          <span>Clear All</span>
         </button>
         <button
           id="doneAll"
-          class="bg-green-500 hover:bg-green-600 text-white font-bold py-3 px-5 rounded-xl shadow-lg transition-all duration-200 hover:scale-105 active:scale-95 opacity-50 active:opacity-80 dark:bg-green-600 dark:hover:bg-green-700"
+          class="bg-green-500 hover:bg-green-600 text-white font-bold py-3 px-5 rounded-xl shadow-lg transition-all duration-200 hover:scale-105 active:scale-95 opacity-50 active:opacity-80 dark:bg-green-600 dark:hover:bg-green-700 w-[50%] flex justify-center items-center"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -176,11 +176,11 @@
               clip-rule="evenodd"
             />
           </svg>
-          Mark All Completed
+          <span>Mark All</span>
         </button>
         <button
           id="unDoneAll"
-          class="bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-3 px-5 rounded-xl shadow-lg transition-all duration-200 hover:scale-105 active:scale-95 active:opacity-80 hidden dark:bg-yellow-600 dark:hover:bg-yellow-700"
+          class="bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-3 px-5 rounded-xl shadow-lg transition-all duration-200 hover:scale-105 active:scale-95 active:opacity-80 hidden dark:bg-yellow-600 dark:hover:bg-yellow-700 w-[50%] flex justify-center items-center"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -194,7 +194,7 @@
               clip-rule="evenodd"
             />
           </svg>
-          Unmark All
+          <span>Unmark All</span>
         </button>
       </div>
     </div>
