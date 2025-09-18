@@ -2,8 +2,27 @@
 //HANDLERS
 
 import Swal from "sweetalert2";
-import { checkList, createList, deleteList, editList } from "./list.js";
-import { doneAll, listGroup } from "./selectors.js";
+import {
+  checkList,
+  createList,
+  deleteList,
+  editList,
+  showEmptyState,
+} from "./list.js";
+import {
+  doneAll,
+  listGroup,
+  languageText,
+  taskInput,
+  deleteAll,
+  unDoneAll,
+} from "./selectors.js";
+import {
+  t,
+  setCurrentLanguage,
+  getCurrentLanguage,
+  initLanguage,
+} from "./translations.js";
 
 //ADD LIST HANDLER
 export const addList = (text) => {
@@ -35,9 +54,9 @@ export const addTaskHandler = () => {
   } else {
     Swal.fire({
       icon: "warning",
-      title: "Oops...",
-      text: "You need to create a task!",
-      confirmButtonText: "Got it",
+      title: t("oops"),
+      text: t("needTask"),
+      confirmButtonText: t("gotIt"),
     });
   }
 };
@@ -49,9 +68,9 @@ export const taskInputHandler = (event) => {
     } else {
       Swal.fire({
         icon: "warning",
-        title: "Oops...",
-        text: "You need to create a task!",
-        confirmButtonText: "Got it",
+        title: t("oops"),
+        text: t("needTask"),
+        confirmButtonText: t("gotIt"),
       });
     }
   }
@@ -62,19 +81,19 @@ export const deleteAllHandler = () => {
   if (allLists.length == 0) {
     Swal.fire({
       icon: "info",
-      title: "No tasks to remove",
-      text: "Your list is already empty!",
-      confirmButtonText: "OK",
+      title: t("noTasksToRemove"),
+      text: t("listEmpty"),
+      confirmButtonText: t("ok"),
     });
   } else {
     // UPGRADE: Replaced native confirm() with SweetAlert2 for better UX
     Swal.fire({
-      title: "Are you sure?",
-      text: "You won't be able to revert this! All tasks will be deleted.",
+      title: t("areYouSure"),
+      text: t("wontRevert"),
       icon: "warning",
       showCancelButton: true,
-      confirmButtonText: "Yes, delete them all!",
-      cancelButtonText: "No, keep them",
+      confirmButtonText: t("yesDeleteAll"),
+      cancelButtonText: t("noKeepThem"),
     }).then((result) => {
       if (result.isConfirmed) {
         deleteAll.classList.add("opacity-50");
@@ -90,14 +109,18 @@ export const deleteAllHandler = () => {
         // Hide doneAll and show unDoneAll (though after deleting all, both might be hidden initially by observer)
 
         Swal.fire({
-          title: "All Deleted!",
-          text: "Your entire list has been cleared.",
+          title: t("allDeleted"),
+          text: t("listCleared"),
           icon: "success",
           showConfirmButton: false,
           timer: 1500,
         });
         doneAll.classList.remove("hidden");
         unDoneAll.classList.add("hidden");
+        // Show empty state after all tasks are deleted
+        setTimeout(() => {
+          showEmptyState();
+        }, 100);
       } else {
         deleteAll.classList.remove("opacity-50");
       }
@@ -110,9 +133,9 @@ export const doneAllHandler = () => {
   if (allLists.length === 0) {
     Swal.fire({
       icon: "info",
-      title: "No tasks to mark",
-      text: "There are no tasks to mark as complete.",
-      confirmButtonText: "OK",
+      title: t("noTasksToMark"),
+      text: t("noTasksToMarkComplete"),
+      confirmButtonText: t("ok"),
     });
   } else {
     allLists.forEach((list) => {
@@ -137,61 +160,48 @@ export const unDoneAllHandler = () => {
   doneAll.classList.remove("hidden");
   unDoneAll.classList.add("hidden");
 };
-//TOGGLE DARK MODE HANDLER
-export const toggleDarkMode = () => {
-  const htmlElement = document.documentElement;
-  const isCurrentlyDark = htmlElement.classList.contains("dark");
+//TOGGLE LANGUAGE HANDLER
+export const toggleLanguage = () => {
+  const currentLang = getCurrentLanguage();
+  const newLang = currentLang === "en" ? "jp" : "en";
 
-  console.log(
-    "Toggle button clicked. Current dark mode state (before change):",
-    isCurrentlyDark ? "Dark" : "Light"
-  );
+  setCurrentLanguage(newLang);
+  updateLanguageDisplay();
+  updateAllTexts();
 
-  if (isCurrentlyDark) {
-    // Currently dark, switch to light
-    htmlElement.classList.remove("dark");
-    localStorage.setItem("theme", "light");
-    if (moonIcon && sunIcon) {
-      moonIcon.classList.remove("hidden"); // Show moon for light mode
-      sunIcon.classList.add("hidden"); // Hide sun for light mode
-    }
-    console.log("Switched to LIGHT mode.");
-  } else {
-    // Currently light, switch to dark
-    htmlElement.classList.add("dark");
-    localStorage.setItem("theme", "dark");
-    if (moonIcon && sunIcon) {
-      moonIcon.classList.add("hidden"); // Hide moon for dark mode
-      sunIcon.classList.remove("hidden"); // Show sun for dark mode
-    }
-    console.log("Switched to DARK mode.");
-  }
-  console.log(
-    "HTML has dark class (after change):",
-    htmlElement.classList.contains("dark")
-  );
+  console.log(`Language switched to: ${newLang}`);
 };
-//APPLY STORED THEME
-const applyStoredTheme = () => {
-  const storedTheme = localStorage.getItem("theme");
-  console.log("Applying stored theme:", storedTheme);
-  if (storedTheme === "dark") {
-    document.documentElement.classList.add("dark");
-    // Ensure icons are correctly set on load
-    if (moonIcon && sunIcon) {
-      moonIcon.classList.add("hidden");
-      sunIcon.classList.remove("hidden");
-    }
-  } else {
-    // Default to light mode (or explicitly set if 'light' was stored or no theme saved)
-    document.documentElement.classList.remove("dark");
-    if (moonIcon && sunIcon) {
-      moonIcon.classList.remove("hidden");
-      sunIcon.classList.add("hidden");
-    }
+
+//UPDATE LANGUAGE DISPLAY
+const updateLanguageDisplay = () => {
+  const currentLang = getCurrentLanguage();
+  if (languageText) {
+    languageText.textContent = currentLang.toUpperCase();
   }
-  console.log(
-    "Initial theme applied. HTML has dark class:",
-    document.documentElement.classList.contains("dark")
+};
+
+//UPDATE ALL TEXTS ON PAGE
+const updateAllTexts = () => {
+  // Update elements with data-i18n attribute
+  const elements = document.querySelectorAll("[data-i18n]");
+  elements.forEach((element) => {
+    const key = element.getAttribute("data-i18n");
+    element.textContent = t(key);
+  });
+
+  // Update elements with data-i18n-placeholder attribute
+  const placeholderElements = document.querySelectorAll(
+    "[data-i18n-placeholder]"
   );
+  placeholderElements.forEach((element) => {
+    const key = element.getAttribute("data-i18n-placeholder");
+    element.placeholder = t(key);
+  });
+};
+
+//INITIALIZE LANGUAGE SYSTEM
+export const initLanguageSystem = () => {
+  initLanguage();
+  updateLanguageDisplay();
+  updateAllTexts();
 };

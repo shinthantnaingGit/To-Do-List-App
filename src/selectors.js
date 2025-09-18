@@ -8,4 +8,6 @@ export const deleteAll = document.querySelector("#deleteAll");
 export const doneAll = document.querySelector("#doneAll");
 export const unDoneAll = document.querySelector("#unDoneAll");
 export const listTemplate = document.querySelector("#listTemplate");
-export const darkModeToggle = document.querySelector("#darkModeToggle");
+export const languageToggle = document.querySelector("#languageToggle");
+export const languageText = document.querySelector("#languageText");
+export const emptyStateTemplate = document.querySelector("#emptyStateTemplate");

@@ -1,12 +1,38 @@
 import Swal from "sweetalert2";
 import { v4 as uuidv4 } from "uuid";
-import { doneAll } from "./selectors";
+import {
+  doneAll,
+  listGroup,
+  unDoneAll,
+  deleteAll,
+  taskTotal,
+  doneTotal,
+  emptyStateTemplate,
+} from "./selectors";
+import { t } from "./translations.js";
+
+//EMPTY STATE FUNCTIONS
+export const showEmptyState = () => {
+  const existingEmptyState = listGroup.querySelector(".empty-state");
+  if (!existingEmptyState) {
+    const emptyState = emptyStateTemplate.content.cloneNode(true);
+    listGroup.appendChild(emptyState);
+  }
+};
+
+export const hideEmptyState = () => {
+  const existingEmptyState = listGroup.querySelector(".empty-state");
+  if (existingEmptyState) {
+    existingEmptyState.remove();
+  }
+};
+
 //ACTIONS (BUSINESS LOGICS)
 //CREATE LIST
 export const tasks = [
-  "Small steps, big results.🚀",
-  "Keep moving forward.➡️",
-  "You’ve got this!💪",
+  "小さな一歩、大きな成果。🚀",
+  "前進し続けよう。➡️",
+  "君ならできる！💪",
 ];
 // let listCounter = 0;
 export const createList = (task) => {
@@ -21,23 +47,25 @@ export const createList = (task) => {
   doneAll.classList.remove("opacity-50");
   unDoneAll.classList.add("hidden");
   deleteAll.classList.remove("opacity-50");
+  // Hide empty state when adding a task
+  hideEmptyState();
   return list;
 };
 //DELETE LIST
 export const deleteList = (listId) => {
   const currentList = document.querySelector(`#${listId}`);
   Swal.fire({
-    title: "Are you sure?",
-    text: "You won't be able to revert this!",
+    title: t("areYouSure"),
+    text: t("deleteFile"),
     icon: "warning",
     showCancelButton: true,
-    confirmButtonText: "Yes, delete it!",
-    cancelButtonText: "No, keep it",
+    confirmButtonText: t("yesDeleteIt"),
+    cancelButtonText: t("noKeepIt"),
   }).then((result) => {
     if (result.isConfirmed) {
       Swal.fire({
-        title: "Deleted!",
-        text: "Your file has been deleted.",
+        title: t("deleted"),
+        text: t("fileDeleted"),
         icon: "success",
       });
       currentList.classList.add("animate__animated", "animate__zoomOut");
@@ -50,6 +78,8 @@ export const deleteList = (listId) => {
           doneAll.classList.add("opacity-50");
           doneAll.classList.remove("hidden");
           unDoneAll.classList.add("hidden");
+          // Show empty state when no tasks remain
+          showEmptyState();
         } else if (
           allLists.length === checkedLists.length &&
           allLists.length > 0
