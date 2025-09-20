@@ -12,17 +12,10 @@ import {
 import {
   doneAll,
   listGroup,
-  languageText,
   taskInput,
   deleteAll,
   unDoneAll,
 } from "./selectors.js";
-import {
-  t,
-  setCurrentLanguage,
-  getCurrentLanguage,
-  initLanguage,
-} from "./translations.js";
 
 //ADD LIST HANDLER
 export const addList = (text) => {
@@ -54,9 +47,9 @@ export const addTaskHandler = () => {
   } else {
     Swal.fire({
       icon: "warning",
-      title: t("oops"),
-      text: t("needTask"),
-      confirmButtonText: t("gotIt"),
+      title: "おっと...",
+      text: "タスクを作成する必要があります！",
+      confirmButtonText: "了解",
     });
   }
 };
@@ -68,9 +61,9 @@ export const taskInputHandler = (event) => {
     } else {
       Swal.fire({
         icon: "warning",
-        title: t("oops"),
-        text: t("needTask"),
-        confirmButtonText: t("gotIt"),
+        title: "おっと...",
+        text: "タスクを作成する必要があります！",
+        confirmButtonText: "了解",
       });
     }
   }
@@ -81,19 +74,19 @@ export const deleteAllHandler = () => {
   if (allLists.length == 0) {
     Swal.fire({
       icon: "info",
-      title: t("noTasksToRemove"),
-      text: t("listEmpty"),
-      confirmButtonText: t("ok"),
+      title: "削除するタスクがありません",
+      text: "リストは既に空です！",
+      confirmButtonText: "OK",
     });
   } else {
     // UPGRADE: Replaced native confirm() with SweetAlert2 for better UX
     Swal.fire({
-      title: t("areYouSure"),
-      text: t("wontRevert"),
+      title: "本当によろしいですか？",
+      text: "この操作は元に戻せません！すべてのタスクが削除されます。",
       icon: "warning",
       showCancelButton: true,
-      confirmButtonText: t("yesDeleteAll"),
-      cancelButtonText: t("noKeepThem"),
+      confirmButtonText: "はい、すべて削除します！",
+      cancelButtonText: "いいえ、保持します",
     }).then((result) => {
       if (result.isConfirmed) {
         deleteAll.classList.add("opacity-50");
@@ -109,8 +102,8 @@ export const deleteAllHandler = () => {
         // Hide doneAll and show unDoneAll (though after deleting all, both might be hidden initially by observer)
 
         Swal.fire({
-          title: t("allDeleted"),
-          text: t("listCleared"),
+          title: "すべて削除されました！",
+          text: "リストがすべてクリアされました。",
           icon: "success",
           showConfirmButton: false,
           timer: 1500,
@@ -133,9 +126,9 @@ export const doneAllHandler = () => {
   if (allLists.length === 0) {
     Swal.fire({
       icon: "info",
-      title: t("noTasksToMark"),
-      text: t("noTasksToMarkComplete"),
-      confirmButtonText: t("ok"),
+      title: "マークするタスクがありません",
+      text: "完了としてマークするタスクがありません。",
+      confirmButtonText: "OK",
     });
   } else {
     allLists.forEach((list) => {
@@ -159,49 +152,4 @@ export const unDoneAllHandler = () => {
   // doneAll.setAttribute("disabled",true);
   doneAll.classList.remove("hidden");
   unDoneAll.classList.add("hidden");
-};
-//TOGGLE LANGUAGE HANDLER
-export const toggleLanguage = () => {
-  const currentLang = getCurrentLanguage();
-  const newLang = currentLang === "en" ? "jp" : "en";
-
-  setCurrentLanguage(newLang);
-  updateLanguageDisplay();
-  updateAllTexts();
-
-  console.log(`Language switched to: ${newLang}`);
-};
-
-//UPDATE LANGUAGE DISPLAY
-const updateLanguageDisplay = () => {
-  const currentLang = getCurrentLanguage();
-  if (languageText) {
-    languageText.textContent = currentLang.toUpperCase();
-  }
-};
-
-//UPDATE ALL TEXTS ON PAGE
-const updateAllTexts = () => {
-  // Update elements with data-i18n attribute
-  const elements = document.querySelectorAll("[data-i18n]");
-  elements.forEach((element) => {
-    const key = element.getAttribute("data-i18n");
-    element.textContent = t(key);
-  });
-
-  // Update elements with data-i18n-placeholder attribute
-  const placeholderElements = document.querySelectorAll(
-    "[data-i18n-placeholder]"
-  );
-  placeholderElements.forEach((element) => {
-    const key = element.getAttribute("data-i18n-placeholder");
-    element.placeholder = t(key);
-  });
-};
-
-//INITIALIZE LANGUAGE SYSTEM
-export const initLanguageSystem = () => {
-  initLanguage();
-  updateLanguageDisplay();
-  updateAllTexts();
 };

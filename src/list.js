@@ -9,7 +9,6 @@ import {
   doneTotal,
   emptyStateTemplate,
 } from "./selectors";
-import { t } from "./translations.js";
 
 //EMPTY STATE FUNCTIONS
 export const showEmptyState = () => {
@@ -55,17 +54,17 @@ export const createList = (task) => {
 export const deleteList = (listId) => {
   const currentList = document.querySelector(`#${listId}`);
   Swal.fire({
-    title: t("areYouSure"),
-    text: t("deleteFile"),
+    title: "本当によろしいですか？",
+    text: "この操作は元に戻せません！",
     icon: "warning",
     showCancelButton: true,
-    confirmButtonText: t("yesDeleteIt"),
-    cancelButtonText: t("noKeepIt"),
+    confirmButtonText: "はい、削除します！",
+    cancelButtonText: "いいえ、保持します",
   }).then((result) => {
     if (result.isConfirmed) {
       Swal.fire({
-        title: t("deleted"),
-        text: t("fileDeleted"),
+        title: "削除されました！",
+        text: "ファイルが削除されました。",
         icon: "success",
       });
       currentList.classList.add("animate__animated", "animate__zoomOut");

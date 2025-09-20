@@ -39,30 +39,9 @@
 
   <body class="bg-gray-400">
     <!-- Main Container -->
-    <div class="main-container shadow-2xl animate__animated animate__zoomIn min-w-sm">
-      <!-- Language Toggle Button -->
-      <button
-        id="languageToggle"
-        class="p-0.5 rounded-lg border-1 hover:bg-gray-400 transition-colors duration-200 active:scale-95 active:opacity-80 cursor-grab flex items-center"
-        title="Switch Language / 言語を切り替え"
-      >
-        <!-- Language Icon -->
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          class="w-6 h-6 pointer-events-none"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke="currentColor"
-        >
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            d="M3 5h12M9 3v2m1.048 9.5A18.022 18.022 0 016.412 9m6.088 9h7M11 21l5-10 5 10M12.751 5C11.783 10.77 8.07 15.61 3 18.129"
-          />
-        </svg>
-        <span id="languageText" class="ml-1 text-sm font-medium">JP</span>
-      </button>
-
+    <div
+      class="main-container shadow-2xl animate__animated animate__zoomIn min-w-sm"
+    >
       <!-- Stable decorative elements -->
       <div class="decorative-element decorative-element-1"></div>
       <div class="decorative-element decorative-element-2"></div>
@@ -70,7 +49,6 @@
 
       <h1
         class="text-4xl font-extrabold text-center mb-6 flex items-center justify-center relative z-10"
-        data-i18n="title"
       >
         あなたのTo-Doリスト
       </h1>
@@ -82,7 +60,6 @@
           id="taskInput"
           class="flex-grow w-[70%] p-3 border-2 border-purple-300 rounded-xl focus:outline-none focus:ring-4 focus:ring-purple-200 transition-all duration-200 text-lg placeholder-gray-400 border-gray-500 text-primary-light placeholder-gray-300 focus:ring-purple-400"
           placeholder="新しいタスクを追加..."
-          data-i18n-placeholder="taskPlaceholder"
         />
         <button
           id="addBtn"
@@ -101,19 +78,17 @@
               clip-rule="evenodd"
             />
           </svg>
-          <span data-i18n="addTask">タスク追加</span>
+          <span>タスク追加</span>
         </button>
       </div>
 
       <!-- Task Summary -->
       <div class="summary-section">
         <p class="text-lg font-semibold">
-          <span data-i18n="totalTasks">総タスク数:</span>
-          <span id="taskTotal" class="font-bold text-2xl">0</span>
+          総タスク数: <span id="taskTotal" class="font-bold text-2xl">0</span>
         </p>
         <p class="text-lg font-semibold">
-          <span data-i18n="completed">完了:</span>
-          <span id="doneTotal" class="font-bold text-2xl">0</span>
+          完了: <span id="doneTotal" class="font-bold text-2xl">0</span>
         </p>
       </div>
 
@@ -143,7 +118,7 @@
               clip-rule="evenodd"
             />
           </svg>
-          <span data-i18n="clearAll">すべて削除</span>
+          <span>すべて削除</span>
         </button>
         <button
           id="doneAll"
@@ -161,7 +136,7 @@
               clip-rule="evenodd"
             />
           </svg>
-          <span data-i18n="markAll">すべて完了</span>
+          <span>すべて完了</span>
         </button>
         <button
           id="unDoneAll"
@@ -179,7 +154,7 @@
               clip-rule="evenodd"
             />
           </svg>
-          <span data-i18n="unmarkAll">すべて未完了</span>
+          <span>すべて未完了</span>
         </button>
       </div>
     </div>
@@ -201,10 +176,8 @@
             d="M9 5H7a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"
           />
         </svg>
-        <h3 class="empty-state-title" data-i18n="emptyTitle">
-          タスクがありません
-        </h3>
-        <p class="empty-state-description" data-i18n="emptyDescription">
+        <h3 class="empty-state-title">タスクがありません</h3>
+        <p class="empty-state-description">
           上の入力欄から最初のタスクを追加してください！
         </p>
       </div>

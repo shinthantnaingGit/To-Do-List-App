@@ -4,12 +4,10 @@ import {
   doneAllHandler,
   listGroupHandler,
   taskInputHandler,
-  toggleLanguage,
   unDoneAllHandler,
 } from "./handlers.js";
 import {
   addBtn,
-  languageToggle,
   deleteAll,
   doneAll,
   listGroup,
@@ -25,7 +23,6 @@ const listener = () => {
   deleteAll.addEventListener("click", deleteAllHandler);
   doneAll.addEventListener("click", doneAllHandler);
   unDoneAll.addEventListener("click", unDoneAllHandler);
-  languageToggle.addEventListener("click", toggleLanguage);
 };
 
 export default listener;
